@@ -1,2 +1,2 @@
 source .venv/bin/activate
-uv run main.pye
+uv run main.py

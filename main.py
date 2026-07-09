@@ -10,15 +10,16 @@ from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
 # from aiogram.fsm.storage.redis import RedisStorage
+
 from bot import BOT_TOKEN, admin, anons, commands, create_tables, sub, user
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
-# logger.disabled = True
-# logging.getLogger("aiogram.event").setLevel(logging.CRITICAL)
-# logging.getLogger("aiogram.dispatcher").setLevel(logging.CRITICAL)
+logger.disabled = True
+logging.getLogger("aiogram.event").setLevel(logging.CRITICAL)
+logging.getLogger("aiogram.dispatcher").setLevel(logging.CRITICAL)
 
 
 async def main() -> None:
