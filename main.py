@@ -10,16 +10,25 @@ from aiogram.enums import ParseMode
 from aiogram.fsm.storage.memory import MemoryStorage
 
 # from aiogram.fsm.storage.redis import RedisStorage
-
-from bot import BOT_TOKEN, admin, anons, commands, create_tables, sub, user
+from bot import (
+    BOT_TOKEN,
+    admin,
+    anons,
+    cleanup_anonymous_messages_task,
+    commands,
+    create_tables,
+    receiver,
+    sub,
+    user,
+)
 
 logging.basicConfig(
     level=logging.DEBUG, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
-logger.disabled = True
-logging.getLogger("aiogram.event").setLevel(logging.CRITICAL)
-logging.getLogger("aiogram.dispatcher").setLevel(logging.CRITICAL)
+# logger.disabled = True
+# logging.getLogger("aiogram.event").setLevel(logging.CRITICAL)
+# logging.getLogger("aiogram.dispatcher").setLevel(logging.CRITICAL)
 
 
 async def main() -> None:
@@ -31,12 +40,29 @@ async def main() -> None:
     storage = MemoryStorage()
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher(storage=storage)
-    dp.include_routers(anons, user, sub, admin)
+    dp.include_routers(anons, receiver, user, sub, admin)
     await bot.set_my_commands(commands=commands)
     await create_tables()
+
+    # Запускается автоматически вместе с ботом.
+    cleanup_task = asyncio.create_task(
+        cleanup_anonymous_messages_task(),
+        name="cleanup_anonymous_messages",
+    )
+
     dp.startup.register(on_startup)
     dp.shutdown.register(on_shutdown)
-    await dp.start_polling(bot)
+
+    try:
+        await dp.start_polling(bot)
+    finally:
+        # При выключении бота останавливаем бесконечный цикл очистки.
+        cleanup_task.cancel()
+
+        try:
+            await cleanup_task
+        except asyncio.CancelledError:
+            pass
 
 
 async def on_startup(dispatcher: Dispatcher):

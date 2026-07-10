@@ -1,11 +1,26 @@
-from bot.misc.config import commands
+from bot.misc.config import admin_texts, commands
 from bot.misc.settings import BOT_TOKEN
 from bot.misc.texts import (
-    already_sub,
+    already_refunded_text,
+    already_subscription_text,
     anonym_send_text,
-    get_sub,
+    answer_text,
+    get_subscription_text,
+    help_cmd_text,
+    increase_to_sub_text,
+    message_not_sent_text,
     message_sent_text,
+    no_args_refund_text,
+    really_stop_text,
     receive_message_text,
+    receive_sub_message_text,
     start_text,
+    stop_cmd_text,
+    stop_cmd_without_sub_text,
+    success_payment_text,
+    successful_refund_text,
+    unsupported_refund_text,
+    write_help_text,
+    write_sentences_text,
     your_link_text,
 )
