@@ -1,8 +1,8 @@
-from datetime import datetime, timedelta
 import logging
+from datetime import datetime, timedelta
 from typing import Dict, Iterable
 
-from bot.database.models import User, AnonymousMessage, Payment
+from bot.database.models import AnonymousMessage, Payment, User
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"

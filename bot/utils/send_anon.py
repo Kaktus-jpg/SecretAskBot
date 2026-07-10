@@ -1,6 +1,6 @@
 from aiogram import Bot
 from aiogram.exceptions import TelegramBadRequest
-from aiogram.types import Message, InlineKeyboardMarkup
+from aiogram.types import InlineKeyboardMarkup, Message
 
 from bot.misc import message_not_sent_text
 

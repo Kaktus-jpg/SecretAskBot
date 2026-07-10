@@ -8,16 +8,17 @@ from aiogram.utils.payload import decode_payload
 
 from bot.database import (
     get_user,
-    set_user,
     set_anonymous_message,
+    set_user,
 )
-from bot.keyboards import anons_markup, another_mes, cancel
+from bot.keyboards import anons_markup, another_mes, cancel, main_menu
 from bot.misc import (
+    admin_texts,
     anonym_send_text,
     message_sent_text,
     receive_message_text,
-    admin_texts,
     receive_sub_message_text,
+    your_link_text,
 )
 from bot.states import SenderStates
 from bot.utils import send_anonymous_message
@@ -41,21 +42,21 @@ async def deep_start(
     receiver_id = int(payload.removeprefix("user_"))
     sender_id = user_id
 
-    await state.set_state(SenderStates.wait_for_send_message)
-    await state.update_data(receiver_id=receiver_id)
+    # await state.set_state(SenderStates.wait_for_send_message)
+    # await state.update_data(receiver_id=receiver_id)
+    #
+    # mes = await message.answer(anonym_send_text, reply_markup=await cancel())
+    #
+    # await state.update_data(data_id=mes.message_id)
 
-    mes = await message.answer(anonym_send_text, reply_markup=await cancel())
-
-    await state.update_data(data_id=mes.message_id)
-
-    # if receiver_id != sender_id:
-    #     await state.set_state(SenderStates.wait_for_send_message)
-    #     await state.update_data(receiver_id=receiver_id)
-    #     mes = await message.answer(anonym_send_text, reply_markup=await cancel())
-    #     await state.update_data(data_id=mes.message_id)
-    # else:
-    #     await message.answer(your_link_text)
-    #     await state.clear()
+    if receiver_id != sender_id:
+        await state.set_state(SenderStates.wait_for_send_message)
+        await state.update_data(receiver_id=receiver_id)
+        mes = await message.answer(anonym_send_text, reply_markup=await cancel())
+        await state.update_data(data_id=mes.message_id)
+    else:
+        await message.answer(your_link_text, reply_markup=await main_menu())
+        await state.clear()
 
 
 @anons.message(SenderStates.wait_for_send_message)

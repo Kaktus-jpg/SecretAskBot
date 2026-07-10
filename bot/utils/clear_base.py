@@ -2,9 +2,12 @@ import asyncio
 import logging
 
 from bot.database.requests import (
-    delete_old_anonymous_messages,
     delete_closed_anonymous_messages,
+    delete_old_anonymous_messages,
 )
+
+logger = logging.getLogger(__name__)
+logger.disabled = True
 
 
 async def cleanup_anonymous_messages_task() -> None:
@@ -20,11 +23,11 @@ async def cleanup_anonymous_messages_task() -> None:
                 3,
             )
 
-            logging.info(
+            logger.info(
                 "Удалено старых активных анонимных сообщений: %s",
                 active_deleted_count,
             )
-            logging.info(
+            logger.info(
                 "Удалено старых закрытых анонимных сообщений: %s",
                 closed_deleted_count,
             )

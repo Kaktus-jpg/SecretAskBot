@@ -1,1 +1,1 @@
-from bot.states.states import SenderStates, ReceiverStates, StopSub
+from bot.states.states import ReceiverStates, SenderStates, StopSub

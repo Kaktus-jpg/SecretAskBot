@@ -1,7 +1,7 @@
 import asyncio
 
 from aiogram import Bot, F, Router
-from aiogram.filters import CommandStart, Command
+from aiogram.filters import Command, CommandStart
 from aiogram.fsm.context import FSMContext
 from aiogram.types import (
     CallbackQuery,
@@ -9,13 +9,13 @@ from aiogram.types import (
 )
 from aiogram.utils.deep_linking import create_start_link
 
-from bot.database import set_user, get_user
-from bot.keyboards import share_link, main_menu, cancel, get_sub, help_menu
+from bot.database import get_user, set_user
+from bot.keyboards import cancel, get_sub, help_menu, main_menu, share_link
 from bot.misc import (
-    start_text,
     help_cmd_text,
-    stop_cmd_text,
     really_stop_text,
+    start_text,
+    stop_cmd_text,
     stop_cmd_without_sub_text,
 )
 from bot.states import StopSub
