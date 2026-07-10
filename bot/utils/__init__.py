@@ -4,4 +4,4 @@ from bot.utils.callbacks import (
     ToggleAdminCallback,
 )
 from bot.utils.send_anon import send_anonymous_message
-from bot.utils.clear_base import cleanup_anonymous_messages_task
+from bot.utils.time import utcnow

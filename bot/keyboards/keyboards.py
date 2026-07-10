@@ -103,14 +103,14 @@ async def get_sub_choose() -> InlineKeyboardMarkup:
         text="Написать 5 предложений ✍️", callback_data="admin_sub_7902315226"
     )
     buy_with_xtr = InlineKeyboardButton(
-        text="Купить за 120 звёзд ⭐", callback_data="buy_with_xtr"
+        text="Купить за 50 звёзд ⭐", callback_data="buy_with_xtr"
     )
     start_menu = await main_button()
     return InlineKeyboardMarkup(inline_keyboard=[[write], [buy_with_xtr], [start_menu]])
 
 
 async def payment_keyboard() -> InlineKeyboardMarkup:
-    pay_button = InlineKeyboardButton(text="Оплатить 120 ⭐", pay=True)
+    pay_button = InlineKeyboardButton(text="Оплатить 50 ⭐", pay=True)
     cancel_button = InlineKeyboardButton(
         text="Отмена ❌", callback_data="restart_delete"
     )
@@ -128,7 +128,7 @@ async def get_sub() -> InlineKeyboardMarkup:
 
 async def help_menu() -> InlineKeyboardMarkup:
     write_help = InlineKeyboardButton(
-        text="Написать в поддержку 🖋️️", callback_data="admin_help_7902315226"
+        text="Написать в поддержку ✏️", callback_data="admin_help_7902315226"
     )
     start_menu = await main_button()
     return InlineKeyboardMarkup(inline_keyboard=[[write_help], [start_menu]])

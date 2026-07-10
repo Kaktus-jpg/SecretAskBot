@@ -5,14 +5,14 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from bot.database.requests import (
+    close_anonymous_message,
     get_anonymous_message,
     get_user,
-    close_anonymous_message,
     set_anonymous_message,
 )
 from bot.keyboards import anons_markup, another_mes, cancel
-from bot.misc import answer_text
-from bot.misc.texts import (
+from bot.misc import (
+    answer_text,
     message_sent_text,
     receive_message_text,
     receive_sub_message_text,

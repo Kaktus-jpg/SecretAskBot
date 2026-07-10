@@ -10,17 +10,15 @@ from bot.database import (
     get_user,
     set_user,
     set_anonymous_message,
-    get_anonymous_message,
 )
 from bot.keyboards import anons_markup, another_mes, cancel
 from bot.misc import (
     anonym_send_text,
     message_sent_text,
     receive_message_text,
-    write_sentences_text,
     admin_texts,
+    receive_sub_message_text,
 )
-from bot.misc import receive_sub_message_text
 from bot.states import SenderStates
 from bot.utils import send_anonymous_message
 
@@ -32,11 +30,11 @@ async def deep_start(
     message: Message, command: CommandObject, state: FSMContext, bot: Bot
 ):
     user_id = message.from_user.id
+    username = message.from_user.username
     first_name = message.from_user.first_name
     second_name = message.from_user.last_name
-    username = message.from_user.username
 
-    await asyncio.to_thread(set_user, user_id, first_name, second_name, username)
+    await asyncio.to_thread(set_user, user_id, username, first_name, second_name)
 
     payload = decode_payload(command.args)
 

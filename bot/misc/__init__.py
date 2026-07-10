@@ -1,5 +1,5 @@
 from bot.misc.config import admin_texts, commands
-from bot.misc.settings import BOT_TOKEN
+from bot.misc.settings import BOT_TOKEN, ADMIN_IDS
 from bot.misc.texts import (
     already_refunded_text,
     already_subscription_text,

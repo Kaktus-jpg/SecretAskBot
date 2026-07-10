@@ -1,15 +1,18 @@
 from datetime import datetime
 
 from peewee import (
-    SqliteDatabase,
-    Model,
-    CharField,
     AutoField,
-    IntegerField,
+    BigIntegerField,
     BooleanField,
+    CharField,
     DateTimeField,
     ForeignKeyField,
+    IntegerField,
+    Model,
+    SqliteDatabase,
 )
+
+from bot.utils import utcnow
 
 db = SqliteDatabase("users_base.db")
 
@@ -69,6 +72,21 @@ class AnonymousMessage(BaseModel):
     class Meta:
         table_name = "anonymous_messages"
         indexes = ((("receiver", "is_active"), False),)
+
+
+class Payment(BaseModel):
+    user = ForeignKeyField(User, backref="payments", on_delete="CASCADE")
+
+    telegram_payment_charge_id = CharField(unique=True)
+    invoice_payload = CharField()
+
+    amount_xtr = BigIntegerField()
+    paid_at = DateTimeField(default=utcnow())
+
+    refund_until = DateTimeField(index=True)
+    refunded_at = DateTimeField(null=True)
+
+    status = CharField(default="paid")  # paid / refunding / refunded
 
 
 async def create_tables():

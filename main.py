@@ -40,7 +40,7 @@ async def main() -> None:
     storage = MemoryStorage()
     bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
     dp = Dispatcher(storage=storage)
-    dp.include_routers(anons, receiver, user, sub, admin)
+    dp.include_routers(anons, receiver, user, admin, sub)
     await bot.set_my_commands(commands=commands)
     await create_tables()
 

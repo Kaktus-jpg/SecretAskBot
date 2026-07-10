@@ -30,10 +30,10 @@ async def simple_start(
     event: Message | CallbackQuery, bot: Bot, state: FSMContext
 ) -> None:
     user_id = event.from_user.id
+    username = event.from_user.username
     first_name = event.from_user.first_name
     second_name = event.from_user.last_name
-    username = event.from_user.username
-    await asyncio.to_thread(set_user, user_id, first_name, second_name, username)
+    await asyncio.to_thread(set_user, user_id, username, first_name, second_name)
 
     await state.clear()
 

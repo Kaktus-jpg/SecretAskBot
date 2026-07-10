@@ -1,7 +1,10 @@
 import asyncio
 import logging
 
-from bot.database import delete_old_anonymous_messages, delete_closed_anonymous_messages
+from bot.database.requests import (
+    delete_old_anonymous_messages,
+    delete_closed_anonymous_messages,
+)
 
 
 async def cleanup_anonymous_messages_task() -> None:

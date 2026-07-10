@@ -1,6 +1,6 @@
 from aiogram.types import BotCommand
 
-from bot.misc.texts import write_sentences_text, write_help_text
+from bot.misc.texts import write_help_text, write_sentences_text
 
 commands = [
     BotCommand(command="start", description="🏠 Главное меню"),

@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 import logging
 from typing import Dict, Iterable
 
-from bot.database import User, AnonymousMessage
+from bot.database.models import User, AnonymousMessage, Payment
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(name)s - %(message)s"
@@ -106,4 +106,52 @@ def delete_closed_anonymous_messages(
             & (AnonymousMessage.replied_at < deadline)
         )
         .execute()
+    )
+
+
+def set_payment(
+    user: User,
+    telegram_payment_charge_id: str,
+    invoice_payload: str,
+    amount_xtr: int,
+    paid_at: datetime,
+    refund_until: datetime,
+    refunded_at: datetime,
+    status: str,
+) -> Payment:
+    payment = Payment.get_or_none(
+        Payment.telegram_payment_charge_id == telegram_payment_charge_id
+    )
+
+    if payment is None:
+        payment = Payment.create(
+            user=user,
+            telegram_payment_charge_id=telegram_payment_charge_id,
+            invoice_payload=invoice_payload,
+            amount_xtr=amount_xtr,
+            paid_at=paid_at,
+            refund_until=refund_until,
+            refunded_at=refunded_at,
+            status=status,
+        )
+    return payment
+
+
+def get_payment(telegram_payment_charge_id: str) -> Payment:
+    payment = Payment.get(
+        Payment.telegram_payment_charge_id == telegram_payment_charge_id
+    )
+    return payment
+
+
+def get_last_paid_payment(user: User) -> Payment | None:
+    return (
+        Payment.select()
+        .where(
+            (Payment.user == user)
+            & (Payment.status == "paid")
+            & (Payment.refunded_at.is_null(True))
+        )
+        .order_by(Payment.paid_at.desc())
+        .first()
     )
